@@ -1,0 +1,32 @@
+{
+  "name": "agentic-engineering-os",
+  "version": "1.0.0",
+  "description": "Sistema Operativo de Ingeniería de Software Agéntica Multi-IA — The Quant Partners",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "harness:syntax": "tsx scripts/harness/syntax-guard.ts",
+    "harness:invariants": "tsx scripts/harness/invariants-guard.ts",
+    "harness:security": "tsx scripts/harness/llm-security-guard.ts",
+    "test": "npm run harness:syntax && npm run harness:invariants && npm run harness:security"
+  },
+  "keywords": [
+    "agentic-ai",
+    "software-engineering",
+    "multi-agent",
+    "clean-architecture",
+    "hexagonal",
+    "c4-model"
+  ],
+  "author": "The Quant Partners (Kenneth & Smith)",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "zod": "^3.24.2"
+  }
+}
