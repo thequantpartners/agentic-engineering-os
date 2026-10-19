@@ -8,11 +8,11 @@
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "harness:syntax": "tsx scripts/harness/syntax-guard.ts",
-    "harness:invariants": "tsx scripts/harness/invariants-guard.ts",
-    "harness:security": "tsx scripts/harness/llm-security-guard.ts",
     "harness:sdd": "tsx scripts/harness/sdd-guard.ts",
     "harness:sdd:gate": "tsx scripts/harness/sdd-guard.ts --require-approved",
-    "test": "npm run harness:syntax && npm run harness:sdd"
+    "harness:invariants": "tsx scripts/harness/invariants-guard.ts",
+    "harness:security": "tsx scripts/harness/llm-security-guard.ts",
+    "test": "npm run harness:syntax && npm run harness:sdd && npm run harness:invariants && npm run harness:security"
   },
   "keywords": [
     "agentic-ai",

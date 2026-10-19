@@ -4,20 +4,20 @@
 Aceptado
 
 ## Contexto & Planteamiento del Problema
-Para escalar el desarrollo de software eliminando el "vibe coding", se requiere una estructura organizacional y técnica donde una IA actúe como Arquitecto Fellow y Jefe de Ingeniería (Smith), orquestando a 11 especialistas hiper-enfocados bajo principios de POO, AOP, Arquitectura Hexagonal y C4 en Mermaid.
+Para escalar el desarrollo de software eliminando el "vibe coding" y erradicando la sobreingeniería, se requiere una estructura organizacional y técnica donde una IA actúe como Arquitecto Fellow y Jefe de Ingeniería (Smith), orquestando a 5 especialistas bajo principios de POO limpia, SOLID, Arquitectura Hexagonal y C4 en Mermaid.
 
 ## Decisión Técnica
-1. Establecer una jerarquía canónica de 2 niveles: Kenneth (Estratega) ➔ Smith (Orquestador en Jefe) ➔ Escuadrón de 11 subagentes.
+1. Establecer una jerarquía canónica de 2 niveles: Kenneth (Estratega) ➔ Smith (Orquestador en Jefe) ➔ Escuadrón de 5 especialistas (`@architect-researcher`, `@core-builder`, `@product-frontend`, `@secops-infra`, `@truth-gate`).
 2. Smith gobierna de forma exclusiva el sistema de memoria y decisiones PCA para no saturar a los subagentes.
-3. Todo módulo transita obligatoriamente por el SDLC de 5 fases (Requerimientos, Arquitectura UML, Implementación Hexagonal, Auditoría AST/SecOps y Reality Check).
+3. Todo módulo transita obligatoriamente por el ciclo SDD de 4 pasos (Contexto JIT, Spec SDD-6 con matriz POO, Construcción con contratos bloqueados, Auditoría determinista).
 
 ## Consecuencias
 ### Positivas:
-- Código de pureza matemática con $O(1)/O(n)$ y cero modelos anémicos.
+- Código de grado industrial con tipado estricto, encapsulamiento POO y cero modelos anémicos.
 - Portabilidad total entre Antigravity, Claude Code, OpenAI Codex y Cursor.
-- Verificación determinista obligatoria antes de cualquier entrega.
+- Verificación determinista en consola con `exit code 0` antes de cualquier entrega.
 ### Mitigaciones:
-- Smith aplica pushback técnico obligatorio para evitar que ideas no probadas degraden el sistema.
+- Smith aplica pushback técnico obligatorio para evitar sobreingeniería y abstracciones prematuras (KISS + YAGNI + SOLID).
 
 ## Verificación
-`npm run harness:syntax && npm run harness:invariants && npm run harness:security` (Exit Code 0).
+`npm test` (`harness:syntax`, `harness:sdd`, `harness:invariants`, `harness:security` en Exit Code 0).

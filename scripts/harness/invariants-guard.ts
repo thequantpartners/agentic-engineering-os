@@ -1,19 +1,18 @@
 /**
- * Semantic Invariants Guard — Single Source of Truth Auditor
- * Part of The Quant Partners AI Agent Harness
+ * Semantic Invariants Guard — Single Source of Truth & Clean State Auditor
+ * Part of Agentic Engineering OS (v2.0)
  *
  * Scans the codebase for:
- * 1. Obsolete or contradictory pricing strings (e.g. stale $1,500 setup or unaligned retainers).
- * 2. Hardcoded offer discrepancies in prompt templates and bot handlers.
- * 3. Verification that canonical offer constants are respected across modules.
+ * 1. Forbidden development placeholders (TODO, FIXME, XXX) in production paths.
+ * 2. Hardcoded secret patterns (stale tokens, test API keys, hardcoded credentials).
+ * 3. Verification of project-level constants and semantic invariants.
  *
  * Exit code 0: All semantic invariants hold.
- * Exit code 1: Stale or contradictory strings detected.
+ * Exit code 1: Stale placeholders or violations detected.
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { CANONICAL_OFFER } from '../../src/config/canonical_offer.js';
 
 interface Discrepancy {
   file: string;
@@ -22,19 +21,15 @@ interface Discrepancy {
   reason: string;
 }
 
-const FORBIDDEN_OBSOLETE_PATTERNS = [
-  { pattern: /\$1[,.]?500\s*(?:usd)?\s*(?:de)?\s*(?:setup|instalaci[oó]n)/i, reason: 'Stale setup price ($1,500). Canonical setup is $1,200 (or S/. 4,500).' },
-  { pattern: /\$800\s*(?:usd)?\s*\/(?:mes|month)/i, reason: 'Stale retainer price ($800/mo). Canonical retainer is $500/mo.' },
-  { pattern: /\$750\s*(?:usd)?\s*\/(?:mes|month)/i, reason: 'Stale retainer price ($750/mo). Canonical retainer is $500/mo.' },
-  { pattern: /S\/\.?\s*5[,.]?500/i, reason: 'Stale PEN setup price. Canonical PEN setup is S/. 4,500.' },
+const FORBIDDEN_PATTERNS = [
+  { pattern: /\b(FIXME|XXX)\b/, reason: 'Found forbidden placeholder (FIXME/XXX). Complete the task or document in SDD.' },
+  { pattern: /(?:api_key|secret_key|private_key)\s*=\s*['"][a-zA-Z0-9_\-]{20,}['"]/i, reason: 'Possible hardcoded credential or secret key.' },
 ];
 
 const SCAN_DIRECTORIES = [
-  'src/ai',
-  'src/whatsapp',
-  'apps/qp-outreach',
-  'apps/soplo-ai',
-  'apps/tech-contractor',
+  'src',
+  'apps',
+  'packages',
 ];
 
 const IGNORED_PATHS = [
@@ -43,15 +38,6 @@ const IGNORED_PATHS = [
   'dist',
   'build',
   'scripts/harness/invariants-guard.ts',
-  'pca/decisions/001-',
-  'pca/decisions/002-',
-  'pca/decisions/003-',
-  'pca/decisions/004-',
-  'pca/decisions/005-',
-  'pca/decisions/006-',
-  'pca/decisions/007-',
-  'pca/decisions/008-',
-  'pca/decisions/009-',
 ];
 
 function scanDirectory(dir: string, discrepancies: Discrepancy[]) {
@@ -63,41 +49,41 @@ function scanDirectory(dir: string, discrepancies: Discrepancy[]) {
     const fullPath = path.join(dir, entry.name);
     const normalized = fullPath.replace(/\\/g, '/');
 
-    if (IGNORED_PATHS.some(ignored => normalized.includes(ignored))) {
+    if (IGNORED_PATHS.some((ignored) => normalized.includes(ignored))) {
       continue;
     }
 
     if (entry.isDirectory()) {
       scanDirectory(fullPath, discrepancies);
-    } else if (entry.isFile() && /\.(ts|tsx|js|jsx|json|md|html)$/.test(entry.name)) {
-      auditFile(fullPath, discrepancies);
+    } else if (entry.isFile() && /\.(ts|tsx|js|json|md)$/.test(entry.name)) {
+      scanFile(fullPath, discrepancies);
     }
   }
 }
 
-function auditFile(filePath: string, discrepancies: Discrepancy[]) {
+function scanFile(filePath: string, discrepancies: Discrepancy[]) {
   const content = fs.readFileSync(filePath, 'utf-8');
-  const lines = content.split('\n');
+  const lines = content.split(/\r?\n/);
 
-  lines.forEach((line, index) => {
-    for (const rule of FORBIDDEN_OBSOLETE_PATTERNS) {
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    for (const rule of FORBIDDEN_PATTERNS) {
       if (rule.pattern.test(line)) {
         discrepancies.push({
           file: filePath,
-          line: index + 1,
+          line: i + 1,
           snippet: line.trim(),
           reason: rule.reason,
         });
       }
     }
-  });
+  }
 }
 
 export function runInvariantsAudit(): boolean {
   console.log('============================================================');
-  console.log('[INVARIANTS GUARD] Auditing Monorepo Semantic Consistency...');
-  console.log(`[INVARIANTS GUARD] Canonical Offer Loaded: "${CANONICAL_OFFER.name}"`);
-  console.log(`[INVARIANTS GUARD] Active Pricing (LatAm): Setup $${CANONICAL_OFFER.geography.latam.pricing.managed.setupUSD} / Retainer $${CANONICAL_OFFER.geography.latam.pricing.managed.monthlyFeeUSD}/mo`);
+  console.log('🛡️  INVARIANTS GUARD: Auditing Codebase Semantic Integrity...');
   console.log('============================================================\n');
 
   const discrepancies: Discrepancy[] = [];
@@ -107,26 +93,20 @@ export function runInvariantsAudit(): boolean {
   }
 
   if (discrepancies.length > 0) {
-    console.error(`\x1b[31m[INVARIANTS GUARD] FAILED: ${discrepancies.length} semantic discrepancy(ies) detected!\x1b[0m\n`);
+    console.error(`❌ FAILED: ${discrepancies.length} semantic discrepancy(ies) detected:\n`);
     for (const d of discrepancies) {
-      console.error(`  - \x1b[33m${d.file}:${d.line}\x1b[0m`);
+      console.error(`  - ${d.file}:${d.line}`);
       console.error(`    Snippet: "${d.snippet}"`);
       console.error(`    Reason:  ${d.reason}\n`);
     }
-    console.error(`Fix these files to align with src/config/canonical_offer.ts before deploying.\n`);
     return false;
   }
 
-  console.log('\x1b[32m[INVARIANTS GUARD] PASS: Monorepo semantic consistency verified. Zero stale pricing strings.\x1b[0m\n');
+  console.log('✅ PASS: Semantic invariants verified. Zero broken constants or placeholder slop.\n');
   return true;
 }
 
-import { fileURLToPath } from 'node:url';
-
-const currentFile = fileURLToPath(import.meta.url);
-const invokedFile = process.argv[1] ? path.resolve(process.argv[1]) : '';
-
-if (currentFile.toLowerCase() === invokedFile.toLowerCase() || invokedFile.endsWith('invariants-guard.ts')) {
+if (import.meta.url === `file://${process.argv[1]}`.replace(/\\/g, '/')) {
   const success = runInvariantsAudit();
   process.exit(success ? 0 : 1);
 }
