@@ -99,6 +99,45 @@ export function validateHtmlFile(filePath: string): ValidationIssue[] {
 }
 
 /**
+ * Recursively discover all valid target files in monorepo directories
+ */
+export function discoverMonorepoFiles(baseDir = process.cwd()): string[] {
+  const targetDirs = ['src', 'apps', 'scripts', 'public'];
+  const validExtensions = ['.ts', '.tsx', '.js', '.jsx', '.html', '.htm'];
+  const ignoredPatterns = ['node_modules', 'dist', 'build', '.git', '.gemini', 'coverage'];
+  const discovered: string[] = [];
+
+  function walk(currentPath: string) {
+    if (!fs.existsSync(currentPath)) return;
+    const entries = fs.readdirSync(currentPath, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const fullPath = path.join(currentPath, entry.name);
+      const normalized = fullPath.replace(/\\/g, '/');
+
+      if (ignoredPatterns.some(p => normalized.includes(`/${p}`) || normalized.endsWith(`/${p}`))) {
+        continue;
+      }
+
+      if (entry.isDirectory()) {
+        walk(fullPath);
+      } else if (entry.isFile()) {
+        const ext = path.extname(entry.name).toLowerCase();
+        if (validExtensions.includes(ext) && !entry.name.endsWith('.d.ts')) {
+          discovered.push(fullPath);
+        }
+      }
+    }
+  }
+
+  for (const dir of targetDirs) {
+    walk(path.join(baseDir, dir));
+  }
+
+  return discovered;
+}
+
+/**
  * Full inspection of target files
  */
 export function validateFiles(filePaths: string[]): ValidationResult {
@@ -118,6 +157,16 @@ export function validateFiles(filePaths: string[]): ValidationResult {
 
     const ext = path.extname(absPath).toLowerCase();
     if (ext === '.html' || ext === '.htm') {
+      const content = fs.readFileSync(absPath, 'utf-8');
+      // Verify viewport responsiveness meta tag (Ley Suprema #9)
+      if (/<html/i.test(content) && !/<meta\s+[^>]*name=["']?viewport["']?/i.test(content)) {
+        allIssues.push({
+          file: relPath,
+          line: 1,
+          column: 1,
+          message: '[Ley Suprema #9] Missing mandatory <meta name="viewport" content="width=device-width, initial-scale=1.0"> in HTML document.',
+        });
+      }
       const htmlIssues = validateHtmlFile(absPath);
       allIssues.push(...htmlIssues);
     } else if (['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs'].includes(ext)) {
@@ -137,15 +186,18 @@ import { fileURLToPath } from 'node:url';
 
 // CLI runner
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))) {
-  const targetFiles = process.argv.slice(2);
+  let targetFiles = process.argv.slice(2);
+  let isAutoDiscovery = false;
+
   if (targetFiles.length === 0) {
-    console.log('Usage: npx tsx scripts/harness/syntax-guard.ts <file1> <file2> ...');
-    process.exit(0);
+    isAutoDiscovery = true;
+    targetFiles = discoverMonorepoFiles();
+    console.log(`[SYNTAX GUARD] No specific files passed. Auto-discovered ${targetFiles.length} file(s) across monorepo...`);
   }
 
   const result = validateFiles(targetFiles);
   if (result.success) {
-    console.log(`[SYNTAX GUARD] PASS: All ${targetFiles.length} file(s) have valid syntax and AST.`);
+    console.log(`[SYNTAX GUARD] PASS: All ${targetFiles.length} file(s) verified. Zero AST or syntax defects.`);
     process.exit(0);
   } else {
     console.error(`[SYNTAX GUARD] FAIL: Found ${result.issues.length} issue(s):`);

@@ -1,125 +1,122 @@
-# The Quant Partners · Agentic Engineering OS (v1.0.0)
+# The Quant Partners · Agentic Engineering OS (v2.0)
 
 > **Enterprise Software Engineering & Multi-Agent Orchestration Framework**  
 > Diseñado para operar sobre **Google Antigravity**, **Anthropic Claude Code**, **OpenAI Codex** y **Cursor**.
 
-Este repositorio es la plantilla maestra e infraestructura de código para desplegar un **Departamento Digital de Ingeniería de Software de Élite Mundial** en cualquier proyecto tecnológico o máquina virgen en menos de 60 segundos.
+Este repositorio es la plantilla maestra e infraestructura de código para desplegar un **Departamento Digital de Ingeniería de Software de Grado Fellow** en cualquier proyecto tecnológico o máquina virgen en menos de 60 segundos.
 
 ---
 
-## 1. Arquitectura del Departamento
+## 🚀 Cómo usar este sistema en un Repositorio Virgen
 
-El sistema opera bajo una **Jerarquía Canónica de 2 Niveles** inspirada en la doctrina de *Extreme Ownership* (Mandato Hopper) y *High Output Management* (Andy Grove):
+Cuando crees un proyecto nuevo o un repositorio vacío, solo dile a tu agente de IA:
+
+> *"Copia este repo de GitHub: `https://github.com/thequantpartners/agentic-engineering-os`, porque trabajaremos de esta manera."*
+
+El agente clonará o adoptará la constitución (`AGENTS.md`), la plantilla SDD-6 (`docs/specs/_TEMPLATE_SDD_6.md`) y los arneses de terminal (`scripts/harness/`), activando inmediatamente el protocolo **`L0-bootstrap`** para inicializar el stack sin fricción.
+
+---
+
+## 1. Asimetría de Roles (Garantía Zero Human Code Review)
+
+El sistema opera bajo una **asimetría de responsabilidades estricta**:
 
 ```mermaid
 flowchart TD
-    K["Kenneth / Fundador (Socio Director & Estratega)"] -->|Define Objetivos & Frontera Comercial| S["Smith (Head of Software Engineering & Chief Orchestrator)"]
-    
-    subgraph SDLC ["Escuadrón Digital de Ingeniería de Élite Mundial"]
+    K["Kenneth (Socio Director / Estratega)"] -->|Define Qué, Prioridades y Frontera Comercial| S["Smith (Chief Orchestrator)"]
+    subgraph SDLC ["Línea de Ensamblaje SDD de 5 Especialistas"]
         direction TB
-        subgraph F1_F2 ["Fase 1 & 2: Análisis & Arquitectura"]
-            R["@researcher (qp-researcher)<br/>Forense de APIs & Docs (Read-Only)"]
-            A["@architect (qp-software-architect)<br/>Diseño UML/C4 Mermaid & POO/AOP/DDD"]
-        end
-
-        subgraph F3 ["Fase 3: Construcción Modular & Capa de IA"]
-            I["@implementer (qp-implementer)<br/>El Mejor Software Engineer (SOLID/DRY)"]
-            AI["@ai (qp-ai-engineer)<br/>Sistemas de IA, LLM Runtime & FinOps"]
-            U["@ui (qp-ui-designer)<br/>Creative Director con designmd.ai (60fps)"]
-            C["@copy (qp-copy-architect)<br/>Copywriting de Conversión & Narrativa Humana"]
-        end
-
-        subgraph F4 ["Fase 4: Verificación, Seguridad & AST"]
-            SEC["@security (qp-security-auditor)<br/>AppSec, Zero Trust & Escaneo de Secretos"]
-            Q["@qa (qp-qa-sentinel)<br/>Confiabilidad & Centinela AST (Exit 0)"]
-            G["@regression (qp-regression-sentinel)<br/>Invariantes & SSOT de Oferta Canónica"]
-            F["@infra (qp-infra-guard)<br/>Cloud Multi-Edge, Docker & Bare-Metal"]
-        end
-
-        subgraph F5 ["Fase 5: Aceptación & Smoke Tests"]
-            RC["@reality (qp-reality-checker)<br/>Smoke Tests en Vivo & Gate de Lanzamiento"]
-        end
+        S --> AR["@architect-researcher (PRD, TRD, Patrones POO & Contratos)"]
+        AR --> CB["@core-builder (Backend POO/DDD, DB & IA)"]
+        AR --> PF["@product-frontend (UI, React/Flutter & Copy B2B)"]
+        CB & PF --> SI["@secops-infra (Infra VPS, Docker & SecOps)"]
+        SI --> TG["@truth-gate (Auditoría POO, Anti-Tautología & Live Smoke)"]
     end
-
-    S --> A & R
-    A --> I & AI
-    S --> U & C
-    I & AI --> SEC & Q & G
-    SEC & Q & G --> RC
-    F -.-> RC
-    RC -->|Exit Code 0 & Verificación en Vivo| S
-    S -->|Entrega Impecable con Consola & SDLC Aprobado| K
+    TG -->|Exit Code 0 & Telemetría Caja de Cristal| S -->|Entrega Forense Determinista| K
 ```
 
----
-
-## 2. Los 11 Subagentes Especializados
-
-| Atajo | Subagente | Especialidad Técnica | Salida / Artefacto |
-| :--- | :--- | :--- | :--- |
-| `@architect` | `qp-software-architect` | UML 2.5 y C4 Model en Mermaid, patrones GoF, POO y AOP. | `docs/architecture/uml/*.md` |
-| `@implementer` | `qp-implementer` | Pureza matemática en TypeScript/Node, SOLID, DRY, inmutabilidad. | Diff tipado y modular |
-| `@ai` | `qp-ai-engineer` | Adaptadores de IA (`IAiModelPort`), Zod schemas, Adaptive Routing, FinOps. | Adaptadores resilientes |
-| `@security` | `qp-security-auditor` | AppSec, prevención de inyecciones (SQL/Prompt), escaneo de secretos. | Reporte Zero Trust |
-| `@qa` | `qp-qa-sentinel` | Confiabilidad de compilador, validación AST y blast radius. | `npm run harness:syntax` |
-| `@regression` | `qp-regression-sentinel` | Guardián semántico contra datos viejos o precios quemados. | `npm run harness:invariants` |
-| `@reality` | `qp-reality-checker` | Smoke tests en vivo ("frena el lanzamiento hasta verificar que anda"). | Validación funcional real |
-| `@infra` | `qp-infra-guard` | Cloud Multi-Edge, Cloudflare Zero Trust, Docker Isolation, SecOps. | Hardening y Dockerfiles |
-| `@researcher` | `qp-researcher` | Forense de repositorios, documentación oficial y contratos de APIs. | Rutas exactas y líneas |
-| `@ui` | `qp-ui-designer` | Interfaces hiper-creativas con `designmd.ai`, micro-interacciones 60fps. | `DESIGN.md` y vistas web |
-| `@copy` | `qp-copy-architect` | Copywriting de conversión B2B, ángulos de dolor y persuasión humana. | Copys sin clichés de IA |
+1. **Kenneth (Director):** Define el problema de negocio, objetivos y aprueba la arquitectura macro sin necesidad de auditar código línea por línea.
+2. **Smith (Chief Orchestrator):** Compilador determinista del SDLC. Garantiza calidad de grado industrial mediante especificaciones previas (SDD), POO estricta, patrones de diseño bien aplicados y compuertas deterministas en terminal.
 
 ---
 
-## 3. Guía de Inicio Rápido en Cualquier Máquina Virgen
+## 2. Los 5 Especialistas de Élite
 
-### Paso 1: Clonar el Repositorio
+| Subagente | Responsabilidad Principal | Invariante de Calidad |
+| :--- | :--- | :--- |
+| **`@architect-researcher`** | Redacción de PRD/TRD, contratos inmutables (`*.contract.*`), diagramas Mermaid y selección de patrones POO. | Cero código ejecutable sin contrato Zod/tipado y justificación de patrones. |
+| **`@core-builder`** | Lógica de Dominio (POO/SOLID), Casos de Uso, Persistencia, colas, adaptadores de IA y APIs. | Encapsulamiento POO (`public`, `private`, `protected`, `readonly`), DI por constructor, Value Objects inmutables. |
+| **`@product-frontend`** | Interfaces web/móviles desacopladas (Vista vs. Estado), responsividad (375px a 4K) y copy B2B. | Cero lógica de negocio en la vista, 4 estados UI cubiertos (Loading, Empty, Error, Success). |
+| **`@secops-infra`** | Dockerfiles no-root, VPS/Coolify, Cloudflare, redes internas aisladas y gestión de secretos. | Cero puertos internos en `0.0.0.0`, cero contenedores root, cero secretos en código. |
+| **`@truth-gate`** | Ejecución de arneses (`syntax`, `sdd`, `invariants`, `test`), auditoría POO y smoke tests. | Prohibido aprobar sin `exit code 0` real. Prohibido aceptar tests tautológicos con mocks falsos. |
+
+---
+
+## 3. Tiers de Rigor & Proporcionalidad (Anti-Sobreingeniería)
+
+Para evitar la burocracia innecesaria en tareas simples, el sistema modula el rigor según el alcance:
+
+* **`L0-bootstrap` (Repo Virgen / Scaffolding Day-1):** Inicialización del proyecto (stack base, tipado estricto, estructura `apps/`, `packages/`, `docs/specs/` y arneses mínimos).
+* **`L1-patch` (Cambios <50 líneas, 1-2 archivos):** Ejecución ágil por Smith. Resuelve de forma directa, ejecuta los arneses en consola y entrega sin burocracia documental.
+* **`L2-feature` (Nuevas funcionalidades o integraciones):** Ciclo completo de 4 pasos (SDD con PRD + TRD y matriz POO) + Hard Stop Zero-Code en Paso 2.
+* **`L3-system` (Nueva app o cambio de arquitectura core):** Ciclo completo + FMEA de resiliencia + registro de decisión arquitectónica (ADR).
+
+---
+
+## 4. Matriz Anti-Patternitis (Cuándo SÍ y Cuándo NO Usar Patrones)
+
+| Problema Técnico real | Patrón Obligatorio | Cuándo NO usarlo (Evitar Sobreingeniería) |
+| :--- | :--- | :--- |
+| Recursos compartidos pesados (Pool DB, Redis, Telemetría) | **Singleton** controlado (`getInstance` + `close`) | Nunca en servicios de negocio o clases con estado por request. |
+| >2 variantes de un algoritmo, proveedor IA o pasarela | **Strategy + Factory Method** | Si solo hay 1 implementación y no se planea otra en el PRD. |
+| Integración con SDKs o APIs externas (WhatsApp, pagos, LLMs) | **Adapter + Circuit Breaker / Retry** | Nunca exponer tipos de librerías de terceros dentro del Dominio. |
+| Flujos con etapas estrictas (bots conversacionales, órdenes) | **State Pattern / Finite State Machine (FSM)** | En CRUDs simples sin reglas de transición de estados. |
+| Creación de objetos complejos con múltiples validaciones | **Builder / Static Factory Method** | En objetos simples de 2-3 propiedades (usar constructor directo). |
+| Datos con reglas propias (Dinero, Teléfono, Email) | **Value Object Inmutable** (autovalidado) | En IDs o textos simples sin invariantes de formato. |
+| Guardar en BD y emitir evento sin perder datos | **Transactional Outbox + Idempotency Lease** | En lecturas simples o tareas sin efectos secundarios críticos. |
+
+---
+
+## 5. Arneses Deterministas de Terminal
+
+El sistema garantiza calidad sin revisión humana manual ejecutando arneses con código de salida estricto (`exit code 0`):
+
 ```bash
-git clone https://github.com/thequantpartners/agentic-engineering-os.git mi-nuevo-proyecto
-cd mi-nuevo-proyecto
-npm install
+# Validador de sintaxis y árboles AST (Full-Stack)
+npm run harness:syntax
+
+# Validador del estándar Spec-Driven Development (SDD-6)
+npm run harness:sdd
+
+# Compuerta bloqueante para CI/CD (exige specs aprobadas)
+npm run harness:sdd:gate
+
+# Verificación de tipos nativa
+npm run typecheck
+
+# Suite completa de verificación
+npm test
 ```
 
-### Paso 2: Conectar con tu Proveedor de IA
+---
 
-#### Opción A: En Google Antigravity
-1. Abre la carpeta `mi-nuevo-proyecto` en Antigravity.
-2. La plataforma detectará automáticamente `AGENTS.md` y `PCA_INDEX.md`.
-3. Pega el contenido de `AI_BOOTSTRAP_PROMPT.md` en el primer mensaje si deseas re-calibrar el entorno al instante.
+## 6. Estructura del Repositorio
 
-#### Opción B: En Anthropic Claude Code CLI
-1. Abre tu terminal en la carpeta:
-   ```bash
-   claude
-   ```
-2. Claude Code leerá automáticamente `CLAUDE.md`.
-3. Para iniciar la orquestación, escribe:
-   ```bash
-   /init o lee AI_BOOTSTRAP_PROMPT.md y asume el rol de Smith
-   ```
-
-#### Opción C: En OpenAI Codex
-1. Inicia Codex en la raíz del proyecto.
-2. Codex leerá las instrucciones de `AGENTS.md`.
-3. Envía el comando:
-   ```bash
-   Inicia como Smith Chief Orchestrator según AI_BOOTSTRAP_PROMPT.md
-   ```
-
-#### Opción D: En Cursor / Windsurf
-1. El editor cargará automáticamente las reglas de `.cursorrules`.
+```text
+├── AGENTS.md                  # Constitución Kernel de Ingeniería & Orquestación
+├── AI_BOOTSTRAP_PROMPT.md     # Prompt maestro de inicialización para cualquier IA
+├── CLAUDE.md                  # Configuración nativa para Anthropic Claude Code
+├── .cursorrules               # Reglas canónicas para Cursor y Windsurf
+├── docs/
+│   ├── engineering/           # Doctrinas canónicas de ingeniería
+│   └── specs/                 # Especificaciones SDD activas
+│       └── _TEMPLATE_SDD_6.md # Plantilla maestra SDD-6 con matriz POO
+├── scripts/
+│   └── harness/               # Arneses deterministas ejecutables (syntax, sdd)
+└── package.json               # Scripts canónicos y herramientas de verificación
+```
 
 ---
 
-## 4. Filosofía y Estándares Inviolables
-
-1. **Fin del "Vibe Coding":** Prohibido el código reactivo, lineal y desestructurado. Todo módulo nuevo se diseña con **POO pura**, **Domain-Driven Design (DDD)** y **Arquitectura Hexagonal**.
-2. **Programación Orientada a Aspectos (AOP):** Los cross-cutting concerns (telemetría, logs, auditoría de seguridad y reintentos) se desacoplan mediante decoradores TypeScript.
-3. **Modelado UML & C4 en Mermaid.js:** Todo subsistema se especifica primero en `docs/architecture/uml/`.
-4. **Gobernanza de PCA Aislada en Smith:** El sistema de decisiones y memoria (`PCA_INDEX.md` y `pca/decisions/`) es gobernado exclusivamente por Smith para no saturar la ventana de contexto de los subagentes.
-5. **Cero Explicaciones en Prosa sin Evidencia de Consola:** Toda entrega técnica debe acompañarse de la prueba ejecutada en terminal con código de salida 0.
-
----
-
-## 5. Licencia y Créditos
+## 7. Licencia
 Desarrollado y mantenido por **The Quant Partners** (Kenneth & Smith). Licencia MIT.
