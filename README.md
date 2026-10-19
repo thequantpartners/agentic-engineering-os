@@ -50,6 +50,11 @@ flowchart TD
 | **`@secops-infra`** | Dockerfiles no-root, VPS/Coolify, Cloudflare, redes internas aisladas y gestión de secretos. | Cero puertos internos en `0.0.0.0`, cero contenedores root, cero secretos en código. |
 | **`@truth-gate`** | Ejecución de arneses (`syntax`, `sdd`, `invariants`, `test`), auditoría POO y smoke tests. | Prohibido aprobar sin `exit code 0` real. Prohibido aceptar tests tautológicos con mocks falsos. |
 
+### 2.1 ¿Cómo se crean los Subagentes en un Repo Virgen?
+Las especificaciones formales de cada especialista residen en `.agents/subagents/*.md` con sus herramientas, permisos y restricciones inviolables.
+* **En Plataformas Multi-Agente (ej. Google Antigravity):** En el primer turno (`L0-bootstrap`), Smith lee `.agents/subagents/` y registra a los especialistas dinámicamente con `define_subagent`.
+* **En Asistentes Mono-Agente o CLI (ej. Claude Code, Cursor, OpenAI Codex):** Smith opera en **Modo Slicing de Contexto por Rol**: adopta secuencialmente la mentalidad de cada especialista delimitando el contexto a la sección del SDD que le corresponde y emitiendo el bloque visible `[SUBAGENTE: @nombre]`.
+
 ---
 
 ## 3. Tiers de Rigor & Proporcionalidad (Anti-Sobreingeniería)
@@ -103,6 +108,8 @@ npm test
 ## 6. Estructura del Repositorio
 
 ```text
+├── .agents/
+│   └── subagents/             # Especificaciones formales de los 5 especialistas
 ├── AGENTS.md                  # Constitución Kernel de Ingeniería & Orquestación
 ├── AI_BOOTSTRAP_PROMPT.md     # Prompt maestro de inicialización para cualquier IA
 ├── CLAUDE.md                  # Configuración nativa para Anthropic Claude Code
@@ -112,7 +119,7 @@ npm test
 │   └── specs/                 # Especificaciones SDD activas
 │       └── _TEMPLATE_SDD_6.md # Plantilla maestra SDD-6 con matriz POO
 ├── scripts/
-│   └── harness/               # Arneses deterministas ejecutables (syntax, sdd)
+│   └── harness/               # Arneses deterministas ejecutables (syntax, sdd, etc.)
 └── package.json               # Scripts canónicos y herramientas de verificación
 ```
 

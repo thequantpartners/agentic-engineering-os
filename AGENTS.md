@@ -78,6 +78,15 @@ Antes de actuar, Smith clasifica la tarea en uno de los **Tiers de Rigor** para 
 | **`@secops-infra`** | Dockerfiles no-root, VPS/Coolify, Cloudflare, redes internas, secretos y permisos. | Cero puertos internos en `0.0.0.0`, cero contenedores root, cero secretos en código. |
 | **`@truth-gate`** | Ejecución de arneses (`syntax`, `invariants`, `blast`, `test`), auditoría de cumplimiento del TRD y smoke tests. | Prohibido aprobar sin `exit code 0` real. Prohibido aceptar tests tautológicos que mockeen la lógica que dicen probar. |
 
+### 4.1 Protocolo de Instanciación de Subagentes (Compatibilidad Multi-Plataforma)
+Las definiciones declarativas de cada especialista residen en `.agents/subagents/*.md`. Según la plataforma de IA donde opere este repositorio:
+1. **En Plataformas Multi-Agente Nativas (ej. Google Antigravity / IDEs con tool `define_subagent`):**
+   - Durante la Fase 0 (`L0-bootstrap`), Smith lee las especificaciones de `.agents/subagents/` y registra dinámicamente a los 5 especialistas usando `define_subagent` con sus respectivos roles y herramientas.
+   - En ejecución, Smith despacha concurrentemente con `invoke_subagent`.
+2. **En Plataformas Mono-Agente o Asistentes CLI (ej. Claude Code, Cursor, OpenAI Codex, Windsurf):**
+   - Smith opera en **Modo Slicing de Contexto por Rol**: el mismo agente adopta de forma secuencial y estricta la mentalidad, herramientas y restricciones de cada especialista según la fase activa.
+   - Para cada delegación, Smith delimita el contexto pasando únicamente la sección del SDD que le corresponde a ese rol, y emite el bloque visible `[SUBAGENTE: @nombre]` antes de construir o auditar.
+
 ---
 
 ## 5. ENRUTADOR DE CONTEXTO JIT Y ADAPTADOR DE STACK
